@@ -17,7 +17,7 @@ const VisaAppointments = ({ selectedDate }) => {
       <div className="text-center">
         <h4 className="text-primary font-semibold ">Visa Appointments</h4>
         <h3 className="text-3xl font-semibold">
-          Visa Appointment On : {format(selectedDate, "PP")}
+          Visa Appointment On {format(selectedDate, "PP")}
         </h3>
       </div>
 
