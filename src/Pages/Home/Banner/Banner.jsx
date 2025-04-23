@@ -1,5 +1,7 @@
 import React from "react";
 import banner from "../../../assets/images/banner.png";
+import PrimaryButton from "../../../components/PrimaryButton/PrimaryButton";
+import { Link } from "react-router-dom";
 
 const Banner = () => {
   return (
@@ -7,13 +9,19 @@ const Banner = () => {
       <div className="hero py-5 md:py-20">
         <div className=" md:flex justify-between items-center gap-5 px-5">
           <div className="md:w-1/2 mb-5">
-            <h1 className="text-2xl md:text-5xl font-bold">Box Office News!</h1>
+            <h1 className=" text-2xl md:text-5xl font-bold">
+              Box Office News!
+            </h1>
             <p className="py-6">
               Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
               excepturi exercitationem quasi. In deleniti eaque aut repudiandae
               et a id nisi.
             </p>
-            <button className="btn btn-primary">Get Started</button>
+            <div className="w-96">
+              <Link to="/visa">
+                <PrimaryButton>Get Started</PrimaryButton>{" "}
+              </Link>
+            </div>
           </div>
           <img
             src={banner}

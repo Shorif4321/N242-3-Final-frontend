@@ -10,7 +10,7 @@ const Header = () => {
       </li>
       <li>
         {" "}
-        <NavLink to="/appointment">Appointment</NavLink>
+        <NavLink to="/visa">Visa</NavLink>
       </li>
       <li>
         {" "}
@@ -25,7 +25,7 @@ const Header = () => {
 
   return (
     <div>
-      <div className="navbar shadow-sm px-4">
+      <div className="bg-white navbar fixed top-0 left-0 right-0 z-50 shadow-sm px-4">
         <div className="navbar-start">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">

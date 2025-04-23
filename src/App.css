@@ -1,2 +1,9 @@
-@import "tailwindcss";
-@plugin "daisyui";
+
+.rdp-selected .rdp-day_button {
+    border: 2px solid #fe5b06 !important;
+}
+
+.rdp-today:not(.rdp-outside) {
+    color: #fe5b06 !important;
+}
+
