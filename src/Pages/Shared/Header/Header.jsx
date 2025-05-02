@@ -1,24 +1,26 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
 import logo from "../../../assets/images/logo.png";
+import { AuthContext } from "../../../context/AuthProvider";
 
 const Header = () => {
+  const { user, logOut } = useContext(AuthContext);
   const menuItems = (
     <React.Fragment>
       <li>
         <Link to="/">Home</Link>
       </li>
       <li>
-        {" "}
         <NavLink to="/visa">Visa</NavLink>
       </li>
       <li>
-        {" "}
         <NavLink to="/about">About</NavLink>
       </li>
       <li>
-        {" "}
         <NavLink to="/contact">Contact</NavLink>
+      </li>
+      <li>
+        <NavLink to="/login">Login</NavLink>
       </li>
     </React.Fragment>
   );
@@ -60,7 +62,47 @@ const Header = () => {
           <ul className="menu menu-horizontal px-1">{menuItems}</ul>
         </div>
         <div className="navbar-end">
-          <a className="btn">Button</a>
+          {/* <a className="btn">Button</a> */}
+          <div className="dropdown dropdown-end">
+            <div
+              tabIndex={0}
+              role="button"
+              className="btn btn-ghost btn-circle avatar"
+            >
+              <div className="w-10 rounded-full">
+                <img
+                  alt="Tailwind CSS Navbar component"
+                  src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                />
+              </div>
+            </div>
+
+            <ul
+              tabIndex={0}
+              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
+            >
+              {user?.uid ? (
+                <>
+                  <li>
+                    <a className="justify-between">
+                      {user?.displayName}
+                      <span className="badge">{user?.uid.slice(0, 10)}</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a>{user?.email}</a>
+                  </li>
+                  <li>
+                    <a onClick={logOut}>Logout</a>
+                  </li>
+                </>
+              ) : (
+                <li>
+                  <NavLink to="/sign-up">Sign Up</NavLink>
+                </li>
+              )}
+            </ul>
+          </div>
         </div>
       </div>
     </div>

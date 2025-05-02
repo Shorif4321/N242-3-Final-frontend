@@ -1,8 +1,13 @@
 import { format } from "date-fns";
-import React from "react";
+import React, { useContext } from "react";
+import { AuthContext } from "../../../context/AuthProvider";
 
 const BookingModal = ({ time, selectedDate }) => {
+  const { name, slots } = time;
   const date = format(selectedDate, "PP");
+
+  const { user } = useContext(AuthContext);
+  console.log(user, "from visa page");
 
   return (
     <div>
@@ -10,7 +15,7 @@ const BookingModal = ({ time, selectedDate }) => {
       <div className="modal" role="dialog">
         <div className="modal-box text-black">
           <div className="flex justify-between items-start">
-            <h3 className="text-lg font-bold">{time.name}</h3>
+            <h3 className="text-lg font-bold">{name}</h3>
             <label
               htmlFor="book_modal"
               className="btn rounded-full bg-primary text-white font-semibold"
@@ -30,7 +35,12 @@ const BookingModal = ({ time, selectedDate }) => {
             />
 
             <label className="label">Name</label>
-            <input type="Name" className="input w-full" placeholder="Name" />
+            <input
+              type="Name"
+              defaultValue={user?.displayName}
+              className="input w-full"
+              placeholder="Name"
+            />
 
             <label className="label">Time</label>
 
@@ -38,17 +48,28 @@ const BookingModal = ({ time, selectedDate }) => {
               defaultValue="Pick a browser"
               className="select input w-full"
             >
-              <option disabled={true}>Pick a browser</option>
-              <option>Chrome</option>
-              <option>FireFox</option>
-              <option>Safari</option>
+              <option disabled={true}>Pick a Browser</option>
+              {slots?.map((slot, i) => (
+                <option key={i}>{slot}</option>
+              ))}
             </select>
 
             <label className="label">Email</label>
-            <input type="email" className="input w-full" placeholder="Email" />
+            <input
+              type="email"
+              defaultValue={user?.email}
+              className="input w-full"
+              placeholder="Email"
+            />
 
             <label className="label">Phone</label>
-            <input type="number" className="input w-full" placeholder="Phone" />
+            <input
+              type="number"
+              required
+              min={0}
+              className="input w-full"
+              placeholder="Phone"
+            />
 
             <input
               type="submit"
