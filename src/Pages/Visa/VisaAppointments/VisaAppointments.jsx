@@ -6,11 +6,14 @@ import { format } from "date-fns";
 const VisaAppointments = ({ selectedDate }) => {
   const [appointments, setAppointments] = useState([]);
   const [time, setTime] = useState({});
+
   useEffect(() => {
-    fetch("visaAppointmentOptions.json")
+    fetch("http://localhost:7000/appointments")
       .then((res) => res.json())
       .then((data) => setAppointments(data));
   }, []);
+
+  // console.log(appointments);
 
   return (
     <div className="mx-5">
