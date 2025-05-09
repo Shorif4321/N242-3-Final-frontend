@@ -38,7 +38,6 @@ const Header = () => {
                 viewBox="0 0 24 24"
                 stroke="currentColor"
               >
-                {" "}
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -61,6 +60,7 @@ const Header = () => {
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">{menuItems}</ul>
         </div>
+
         <div className="navbar-end">
           {/* <a className="btn">Button</a> */}
           <div className="dropdown dropdown-end">
@@ -72,7 +72,7 @@ const Header = () => {
               <div className="w-10 rounded-full">
                 <img
                   alt="Tailwind CSS Navbar component"
-                  src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                  src={user?.photoURL ? user?.photoURL : "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"}
                 />
               </div>
             </div>

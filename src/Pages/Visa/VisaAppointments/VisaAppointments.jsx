@@ -34,7 +34,7 @@ const VisaAppointments = ({ selectedDate }) => {
         ))}
       </div>
       {time && (
-        <BookingModal time={time} selectedDate={selectedDate}></BookingModal>
+        <BookingModal time={time} setTime={setTime} selectedDate={selectedDate}></BookingModal>
       )}
     </div>
   );

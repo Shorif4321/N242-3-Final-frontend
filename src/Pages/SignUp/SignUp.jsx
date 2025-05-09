@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import google from "../../assets/images/google.png";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../../context/AuthProvider";
+import toast from "react-hot-toast";
 
 const SignUp = () => {
   const { createUser, updateUser } = useContext(AuthContext);
@@ -14,6 +15,31 @@ const SignUp = () => {
   } = useForm();
   const navigate = useNavigate();
 
+  const savedUser = (name,email)=>{
+    const user = {name,email}
+    fetch('http://localhost:7000/users',{
+      method:"POST",
+      headers:{
+        "content-type":"application/json"
+      },
+      body: JSON.stringify(user)
+    })
+    .then(res=>res.json())
+    .then(data=>{
+      if(data.acknowledged){
+
+        toast.success('Login Successfully Done!')
+        
+  //       toast.promise("User Created successfully done")
+  //       toast.promise({
+  //       loading: 'Saving...',
+  //       success: <b>Settings saved!</b>,
+  //       // error: <b>Could not save.</b>,
+  //  })
+      }
+    })
+  }
+
   const handleSignUP = (data) => {
     console.log("handleSignUP here", data);
     createUser(data.email, data.password)
@@ -23,6 +49,9 @@ const SignUp = () => {
         const userInfo = {
           displayName: data.name,
         };
+
+        savedUser(data.name,data.email)
+
         updateUser(userInfo)
           .then(() => {
             navigate("/");
@@ -30,10 +59,13 @@ const SignUp = () => {
           .catch((err) => {
             console.log(err);
           });
-        reset();
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error.message);
+        if(error.message === "Firebase: Error (auth/email-already-in-use)."){
+          toast.error("Email Already in Used")
+        }
+    
       });
   };
 

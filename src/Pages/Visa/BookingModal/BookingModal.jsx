@@ -1,13 +1,57 @@
 import { format } from "date-fns";
 import React, { useContext } from "react";
 import { AuthContext } from "../../../context/AuthProvider";
+import toast from "react-hot-toast";
 
-const BookingModal = ({ time, selectedDate }) => {
+const BookingModal = ({ time,setTime, selectedDate }) => {
   const { name, slots } = time;
   const date = format(selectedDate, "PP");
 
   const { user } = useContext(AuthContext);
-  console.log(user, "from visa page");
+
+  const handleAppointment =(event)=>{
+    event.preventDefault();
+    const form = event.target;
+    const userName = form.name.value;
+    const slot = form.slot.value;
+    const email = form.email.value;
+    const phone = form.phone.value;
+    
+    const booking = {
+      serviceName:name,
+      appointmentDate:date,
+      slot,
+      name:userName,
+      email,phone,
+    }
+    // console.log(booking);
+    
+    fetch('http://localhost:7000/bookings',{
+      method:"POST",
+      headers:{
+        "content-type":"application/json"
+      },
+      body: JSON.stringify(booking)
+    })
+    .then(res=>res.json())
+    .then(data=>{
+      console.log(data);
+      
+      if(data.acknowledged){
+        form.reset()
+        toast.success('Booking Successful 👏!');
+        setTime("")
+      }
+      else{
+         toast.error(data.message)
+      }
+    } )
+    
+
+
+  }
+ 
+
 
   return (
     <div>
@@ -24,7 +68,7 @@ const BookingModal = ({ time, selectedDate }) => {
             </label>
           </div>
 
-          <form action="" className="fieldset">
+          <form onSubmit={handleAppointment} className="fieldset">
             <label className="label">Date</label>
             <input
               value={date}
@@ -38,15 +82,17 @@ const BookingModal = ({ time, selectedDate }) => {
             <input
               type="Name"
               defaultValue={user?.displayName}
+              readOnly
               className="input w-full"
               placeholder="Name"
+              name="name"
             />
 
             <label className="label">Time</label>
-
             <select
               defaultValue="Pick a browser"
               className="select input w-full"
+              name="slot"
             >
               <option disabled={true}>Pick a Browser</option>
               {slots?.map((slot, i) => (
@@ -57,6 +103,8 @@ const BookingModal = ({ time, selectedDate }) => {
             <label className="label">Email</label>
             <input
               type="email"
+              name="email"
+              readOnly
               defaultValue={user?.email}
               className="input w-full"
               placeholder="Email"
@@ -65,6 +113,7 @@ const BookingModal = ({ time, selectedDate }) => {
             <label className="label">Phone</label>
             <input
               type="number"
+              name="phone"
               required
               min={0}
               className="input w-full"

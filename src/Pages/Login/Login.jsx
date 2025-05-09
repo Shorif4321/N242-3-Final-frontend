@@ -3,9 +3,10 @@ import { Link } from "react-router-dom";
 import google from "../../assets/images/google.png";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../../context/AuthProvider";
+import toast from "react-hot-toast";
 
 const Login = () => {
-  const { signIn } = useContext(AuthContext);
+  const { signIn,continueWithGoogle } = useContext(AuthContext);
   const {
     register,
     handleSubmit,
@@ -18,13 +19,29 @@ const Login = () => {
     signIn(data.email, data.password)
       .then((result) => {
         const user = result.user;
-        console.log(user, "login here");
+             toast.success('Login Successfully Done!')
         reset();
       })
       .catch((error) => {
         console.log(error);
       });
   };
+
+  const googleLogin=()=>{
+    continueWithGoogle()
+    .then(result=>{
+      const user = result.user;
+      console.log(user);
+      if(user){
+         toast.success('Login Successfully Done!')
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      
+        toast.error(error.message)
+      });
+  }
 
   return (
     <div className="flex justify-center items-center min-h-screen">
@@ -78,6 +95,7 @@ const Login = () => {
               type="submit"
               value="Login Now"
               className="btn btn-primary mt-4"
+              onClick={googleLogin}
             >
               <img className="w-8 h-8 me-2" src={google} alt="" /> Continue With
               Google
